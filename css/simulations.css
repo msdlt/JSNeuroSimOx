@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+body
+{
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:1cm;
+    width:1000px;
+}
+
+.simtitle
+{
+    font-size:170%;
+    padding-bottom:1ex;
+}
+
+.simparamlabel
+{
+    width:17em;
+}
+
+.simparaminput
+{
+    width:4em;
+}
+
+.simparamcheck
+{
+    width:4em;
+}
+
+.plotpanel
+{
+    float:right; 
+    /*border: 1px solid #000; */
+    padding-top: 10px;
+    padding-left: 15px;
+}
+
+.controlspanel
+{
+    padding-left: 1em;
+    padding-bottom: 2em;
+}
+
+.simparamsection
+{
+}
+
+.simparamunits
+{
+    font-size:80%;
+}
+
+.simparamerror
+{
+    font-size:70%;
+    color:#FF0000;
+    width:10em;
+    padding-left:1.5em;
+}
+
+.simparamheading
+{
+    margin-bottom: 0.5ex;
+}
+
+.simplotheading
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}
+
+.datapanel
+{
+    padding-left: 1em;
+    padding-top: 2em;
+}
+
+.datatable
+{
+    width:25em;
+    border-collapse:collapse;
+    margin-bottom:1em;
+}
+
+.datatablecaption
+{
+    text-align:left;
+    font-weight:bold;
+}
+
+.datatableheading
+{
+    width:4em;
+    text-align:left;
+    border-top:thin solid black;
+    border-bottom:thin solid black;
+    padding:0px;
+}
+
+.jqplot-yaxis {
+    margin-left: -80px;
+}
+
+.animationpanel {
+    position: relative;
+}
+
+#TongueAnimation {
+    width: 1000px;
+    height: 80px;
+}
+
+#TritoniaAnimation {
+    width: 1000px;
+    height: 120px;
+    background: cyan;
+}
+
