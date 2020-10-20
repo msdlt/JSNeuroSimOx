@@ -4,14 +4,14 @@ body
 {
     margin-right:auto;
     margin-left:auto;
-    margin-top:1cm;
-    width:1000px;
+    /*margin-top:1cm;
+    width:1000px;*/
 }
 
 .simtitle
 {
-    font-size:170%;
-    padding-bottom:1ex;
+    /*font-size:170%;
+    padding-bottom:1ex;*/
 }
 
 .simparamlabel
@@ -31,16 +31,15 @@ body
 
 .plotpanel
 {
-    float:right; 
-    /*border: 1px solid #000; */
+    /*float:right; */
     padding-top: 10px;
     padding-left: 15px;
 }
 
 .controlspanel
 {
-    padding-left: 1em;
-    padding-bottom: 2em;
+    /*padding-left: 1em;
+    padding-bottom: 2em;*/
 }
 
 .simparamsection
@@ -116,5 +115,9 @@ body
     width: 1000px;
     height: 120px;
     background: cyan;
+}
+
+div.advanced {
+    display: none;
 }
 

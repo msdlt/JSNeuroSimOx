@@ -12,44 +12,44 @@ window.addEventListener('load', function () {
 
     // set up the controls
     params = { 
-        diameter_um: { label: 'Dendrite diameter', units: '\u00B5m',
-            defaultVal: 2, minVal: 0.001, maxVal: 1000 },
+        diameter_um: { label: 'Axon/Dendrite diameter', units: '\u00B5m',
+            defaultVal: 1, minVal: 0.001, maxVal: 1000, advanced: false },
         R_axial_ohm_cm: { label: 'Axial resistance', units: '\u03A9 cm',
-            defaultVal: 36, minVal: 0.01, maxVal: 10000 },
+            defaultVal: 36, minVal: 0.01, maxVal: 10000, advanced: true },
         C_uF_p_cm2: { label: 'Membrane capacitance', units: '\u00B5F/cm\u00B2',
-            defaultVal: 1, minVal: 0.01, maxVal: 100 }, 
+            defaultVal: 1, minVal: 0.01, maxVal: 100, advanced: false }, 
         g_leak_mS_p_cm2: { label: 'Leak conductance', units: 'mS/cm\u00B2', 
-            defaultVal: 0.3, minVal: 0.01, maxVal: 1000 }, 
+            defaultVal: 0.3, minVal: 0.01, maxVal: 1000, advanced: false }, 
         E_leak_mV: { label: 'Leak reversal potential', units: 'mV',
-            defaultVal: -54.4, minVal: -1000, maxVal: 1000 }, 
+            defaultVal: -54.4, minVal: -1000, maxVal: 1000, advanced: true }, 
         g_Na_mS_p_cm2: { label: 'Fast transient sodium conductance', 
-            units: 'mS/cm\u00B2', defaultVal: 120, minVal: 0.01, maxVal: 1000 }, 
+            units: 'mS/cm\u00B2', defaultVal: 120, minVal: 0.01, maxVal: 1000, advanced: true }, 
         E_Na_mV: { label: 'Sodium Nernst potential', units: 'mV',
-            defaultVal: 55, minVal: -1000, maxVal: 1000 }, 
+            defaultVal: 55, minVal: -1000, maxVal: 1000, advanced: true }, 
         g_K_mS_p_cm2: { label: 'Delayed rectifier potassium conductance', 
-            units: 'mS/cm\u00B2', defaultVal: 36, minVal: 0.01, maxVal: 1000 }, 
+            units: 'mS/cm\u00B2', defaultVal: 36, minVal: 0.01, maxVal: 1000, advanced: true }, 
         E_K_mV: { label: 'Potassium Nernst potential', units: 'mV',
-            defaultVal: -77, minVal: -1000, maxVal: 1000 }, 
+            defaultVal: -77, minVal: -1000, maxVal: 1000, advanced: true }, 
         dist_electrodes_um: { label: 'Distance between electrodes', 
-            units: '\u00B5m', defaultVal: 3000, minVal: 500, maxVal: 10000 },
+            units: '\u00B5m', defaultVal: 8000, minVal: 500, maxVal: 10000, advanced: false },
         pulseStart_ms: { label: 'Stimulus delay', units: 'ms', 
-            defaultVal: 0.1, minVal: 0, maxVal: tMax / 1e-3 },
+            defaultVal: 0.1, minVal: 0, maxVal: tMax / 1e-3, advanced: true },
         pulseHeight_nA: { label: 'Stimulus current', units: 'nA', 
-            defaultVal: 3, minVal: -1000, maxVal: 1000 },
+            defaultVal: 1, minVal: -1000, maxVal: 1000, advanced: false },
         pulseWidth_ms: { label: 'Pulse duration', units: 'ms', 
-            defaultVal: 0.4, minVal: 0, maxVal: tMax / 1e-3 },
+            defaultVal: 0.4, minVal: 0, maxVal: tMax / 1e-3, advanced: true },
         isi_ms: { label: 'Inter-stimulus interval', units: 'ms', 
-            defaultVal: 1, minVal: 0, maxVal: tMax / 1e-3 },
-        numPulses: { label: 'Number of pulses', units: '', 
-            defaultVal: 1, minVal: 0, maxVal: 100 },
+            defaultVal: 1, minVal: 0, maxVal: tMax / 1e-3, advanced: true },
+        numPulses: { label: 'Number of pulses', units: ' ', 
+            defaultVal: 1, minVal: 0, maxVal: 100, advanced: true },
         totalDuration_ms: { label: 'Total duration', units: 'ms', 
-            defaultVal: 8, minVal: 0, maxVal: tMax / 1e-3 },
-        numCompartments: { label: 'Number of compartments', units: '', 
-            defaultVal: 8, minVal: 4, maxVal: 100 },
-        numCapSegments: { label: 'Number of capping segments', units: '', 
-            defaultVal: 6, minVal: 0, maxVal: 100 },
-        cappingFactor: { label: 'Capping factor', units: '', 
-            defaultVal: 2, minVal: 1, maxVal: 100 }
+            defaultVal: 25, minVal: 0, maxVal: tMax / 1e-3, advanced: false },
+        numCompartments: { label: 'Number of compartments', units: ' ', 
+            defaultVal: 8, minVal: 4, maxVal: 100, advanced: true },
+        numCapSegments: { label: 'Number of capping segments', units: ' ', 
+            defaultVal: 6, minVal: 0, maxVal: 100, advanced: true },
+        cappingFactor: { label: 'Capping factor', units: ' ', 
+            defaultVal: 2, minVal: 1, maxVal: 100, advanced: true }
     };
     layout = [
         ['Cell Properties', ['diameter_um', 'R_axial_ohm_cm', 'C_uF_p_cm2', 
@@ -292,6 +292,17 @@ window.addEventListener('load', function () {
         stimDataTable.style.display = 'none';
     }
 
+    function toggleAdvanced(event) {
+        //get all controls with class 'advanced'
+        var advancedElements = document.querySelectorAll('[data-advanced="true"]');
+        Array.prototype.forEach.call(advancedElements, function(el, index, array) {
+            if(!event.target.checked) {
+                el.classList.remove('advanced');
+            } else {
+                el.classList.add('advanced');
+            }
+        });
+    }
 
     (document.getElementById('ActiveCableRunButton')
         .addEventListener('click', runSimulation, false));
@@ -299,6 +310,8 @@ window.addEventListener('load', function () {
         .addEventListener('click', reset, false));
     (document.getElementById('ActiveCableClearDataButton')
         .addEventListener('click', clearDataTables, false));
+    (document.getElementById('ActiveCableToggleAdvanced')
+        .addEventListener('change', toggleAdvanced, false));
     
 
     // make the enter key run the simulation  

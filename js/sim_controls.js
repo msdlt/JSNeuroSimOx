@@ -29,8 +29,8 @@ var simcontrols = (function () {
     }
 
     function controls(element, params, layout) {
-        var i, section, heading, paramTable, j, paramName, paramRow, 
-            paramLabel, paramInputCell, paramUnits,
+        var i, section, heading, paramForm, j, paramName, paramRow, 
+            paramLabel, paramInputCell, paramInputGroup, paramUnitsWrapper, paramUnits,
             values, errorLabels = {}, textBoxes = {}, checkBoxes = {};
 
         // store the current value of each of the parameters
@@ -79,54 +79,90 @@ var simcontrols = (function () {
             heading.className = 'simparamheading';
             section.appendChild(heading);
 
-            paramTable = document.createElement('table');
-            section.appendChild(paramTable);
+            //paramTable = document.createElement('table');
+            paramForm = document.createElement('form');
+            section.appendChild(paramForm);
 
             for (j = 0; j < layout[i][1].length; j += 1) {
                 paramName = layout[i][1][j];
 
-                paramRow = document.createElement('tr');
-                paramTable.appendChild(paramRow);
+                //paramRow = document.createElement('tr');
+                paramRow = document.createElement('div');
+                paramRow.classList.add('form-group');
+                paramRow.classList.add('row');
+
+                paramForm.appendChild(paramRow);
+                //default to not hiding anything unless advanced proerty set in params
+                var advancedValue = false;
+                if(params[paramName].hasOwnProperty('advanced')) {
+                    advancedValue = params[paramName].advanced;    
+                } 
+                paramRow.setAttribute('data-advanced', advancedValue);
+                if(advancedValue) paramRow.classList.add('advanced');
                 
-                paramLabel = document.createElement('td');
+                                
+                //paramLabel = document.createElement('td');
+                paramLabel = document.createElement('label');
+                paramLabel.classList.add('col-sm-6');
+                paramLabel.classList.add('col-form-label');
+                paramLabel.setAttribute('for', 'formControl'+ j);
                 paramLabel.innerHTML = params[paramName].label;
-                paramLabel.className = 'simparamlabel';
+                //paramLabel.className = 'simparamlabel';
                 paramRow.appendChild(paramLabel);
                 
-                paramInputCell = document.createElement('td');
+                //paramInputCell = document.createElement('td');
+                paramInputCell = document.createElement('div');
+                paramInputCell.classList.add('col-sm-6');
                 paramRow.appendChild(paramInputCell);
+
+                paramInputGroup = document.createElement('div');
+                paramInputGroup.classList.add('input-group');
+                paramInputCell.appendChild(paramInputGroup);
 
                 if (params[paramName].hasOwnProperty('checked')) {
 
                     checkBoxes[paramName] = document.createElement('input');
                     checkBoxes[paramName].type = 'checkbox';
+                    checkBoxes[paramName].id = 'formControl'+ j;
                     checkBoxes[paramName].checked = params[paramName].checked;
                     checkBoxes[paramName].addEventListener('change',
                         checkBoxChangeHandler(paramName), false);
-                    checkBoxes[paramName].className = 'simparamcheck';
-                    paramInputCell.appendChild(checkBoxes[paramName]);
+                    //checkBoxes[paramName].className = 'simparamcheck';
+                    checkBoxes[paramName].className = 'form-control';
+                    paramInputGroup.appendChild(checkBoxes[paramName]);
 
                 } else {
 
                     textBoxes[paramName] = document.createElement('input');
                     textBoxes[paramName].value = params[paramName].defaultVal;
+                    textBoxes[paramName].id = 'formControl'+ j;
                     textBoxes[paramName].addEventListener('change', 
                         textBoxChangeHandler(paramName), false);
-                    textBoxes[paramName].className = 'simparaminput';
-                    paramInputCell.appendChild(textBoxes[paramName]);
+                    //textBoxes[paramName].className = 'simparaminput';
+                    textBoxes[paramName].className = 'form-control';
+                    paramInputGroup.appendChild(textBoxes[paramName]);
 
                 }
 
-                paramUnits = document.createElement('td');
+                
                 if (params[paramName].units) {
-                    paramUnits.innerHTML = params[paramName].units;
-                }
-                paramUnits.className = 'simparamunits';
-                paramRow.appendChild(paramUnits);
+                    paramUnitsWrapper = document.createElement('div');
+                    paramUnitsWrapper.classList.add('input-group-append');
+                    paramInputGroup.appendChild(paramUnitsWrapper);
 
-                errorLabels[paramName] = document.createElement('td');
+                    //paramUnits = document.createElement('td');
+                    paramUnits = document.createElement('span');
+                    paramUnits.classList.add('input-group-text');
+                    paramUnits.innerHTML = params[paramName].units;
+                    //paramUnits.className = 'simparamunits';
+                    paramUnitsWrapper.appendChild(paramUnits);
+                }
+                
+
+                //errorLabels[paramName] = document.createElement('td');
+                errorLabels[paramName] = document.createElement('span');
                 errorLabels[paramName].className = 'simparamerror';
-                paramRow.appendChild(errorLabels[paramName]);
+                paramUnitsWrapper.appendChild(errorLabels[paramName]);
             }
         }
 
